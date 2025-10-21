@@ -13,7 +13,7 @@ services:
       - TORRENTING_PORT=${TORRENTING_PORT:-6881}
     volumes:
       - ${TORRENTS_FOLDER}:/downloads
-      - ./config:/config
+      - config:/config
     image: lscr.io/linuxserver/qbittorrent:latest
     restart: unless-stopped
     networks:
@@ -22,3 +22,7 @@ services:
 networks:
   net:
     external: false
+
+volumes:
+  config:
+    name: qbittorrent-config
