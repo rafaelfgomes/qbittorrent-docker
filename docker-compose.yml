@@ -13,6 +13,7 @@ services:
       - TORRENTING_PORT=${TORRENTING_PORT:-6881}
     volumes:
       - ${TORRENTS_FOLDER}:/downloads
+      - ./ipfilter.dat:/ipfilter.dat:ro
       - config:/config
     image: lscr.io/linuxserver/qbittorrent:latest
     restart: unless-stopped
