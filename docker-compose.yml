@@ -1,26 +1,22 @@
 services:
   qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:latest
+    image: lscr.io/linuxserver/qbittorrent
     container_name: qbittorrent
     hostname: qbittorrent
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TIMEZONE}
-      - WEBUI_PORT=${WEBUI_PORT:-8080}
-      - TORRENTING_PORT=6881
-    ports:
-      - ${WEBUI_PORT:-8080}:${WEBUI_PORT:-8080}
-      - ${TORRENTING_PORT:-6881}:6881/tcp
-      - ${TORRENTING_PORT:-6881}:6881/udp
     volumes:
       - ${TORRENTS_FOLDER}:/downloads
       - ./ipfilter.dat:/ipfilter.dat:ro
       - ${CONFIG_FOLDER:-./config}:/config
     restart: unless-stopped
     networks:
-      - net
+      external:
+        ipv4_address: ${QBITTORRENT_IP}
 
 networks:
-  net:
-    external: false
+  external:
+    external: true
+    name: ${EXTERNAL_NETWORK_NAME}
