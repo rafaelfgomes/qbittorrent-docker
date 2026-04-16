@@ -2,7 +2,6 @@ services:
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent
     container_name: qbittorrent
-    hostname: qbittorrent
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -12,6 +11,10 @@ services:
       - ./ipfilter.dat:/ipfilter.dat:ro
       - ${CONFIG_FOLDER:-./config}:/config
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 4000M
     networks:
       external:
         ipv4_address: ${QBITTORRENT_IP}
